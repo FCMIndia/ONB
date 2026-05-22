@@ -327,10 +327,10 @@ function mapItem(item){
 // Try 3 methods to get live data
 var SP_BASE = "https://fctgau.sharepoint.com/sites/India/FCMOBTTechnology";
 var DATA_URLS = [
-  // Method 1: Direct Site Assets (works if logged into SP in same browser)
-  SP_BASE + "/SiteAssets/onboarding-data.json",
-  // Method 2: Via SP REST API file endpoint
-  SP_BASE + "/_api/web/getfilebyserverrelativeurl('/sites/India/FCMOBTTechnology/SiteAssets/onboarding-data.json')/$value"
+  // OneDrive anyone-with-link sharing URL (direct download)
+  "https://fctgau-my.sharepoint.com/:u:/g/personal/shailendra_pandey_in_fcm_travel/IQBX0tIr2jq_SbnmP9vD1nsAAeBvh2zP_eJowcqAhY0B9Zw?download=1",
+  // Fallback: Site Assets
+  SP_BASE + "/SiteAssets/onboarding-data.json"
 ];
 
 function load(){
