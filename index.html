@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Onboarding 60 Days Tracker</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',Segoe UI,sans-serif;background:#eef0f6;color:#0f172a;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:#f1f5f9}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px}
+
+/* ── Header ── */
+#hdr{background:#1e293b;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px}
+.hdr-logo{display:flex;align-items:center;gap:12px}
+.hdr-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:16px}
+.hdr-t{font-weight:800;font-size:14px;color:#f8fafc}
+.hdr-s{font-size:11px;color:#94a3b8;margin-top:1px}
+.live{display:flex;align-items:center;gap:7px;font-size:11px;color:#94a3b8}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e}
+
+/* ── Wrap ── */
+#wrap{max-width:1400px;margin:0 auto;padding:20px 24px}
+
+/* ── Stats ── */
+#stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.sc{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid #e8edf4;border-top:3px solid transparent}
+.sc-lbl{font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.sc-val{font-size:28px;font-weight:800;line-height:1}
+.sc-sub{font-size:11px;color:#64748b;margin-top:3px}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start}
+.sc-ico{font-size:22px;opacity:.75}
+
+/* ── Toolbar ── */
+#tb{background:#fff;border-radius:12px;padding:11px 14px;border:1px solid #e8edf4;margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sw{position:relative;flex:1 1 200px}
+.sw span{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:#94a3b8;pointer-events:none}
+.sw input{width:100%;padding:7px 10px 7px 30px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;color:#0f172a;outline:none;background:#f8fafc;font-family:inherit}
+.sw input:focus{border-color:#a5b4fc}
+select.fil{padding:7px 10px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;color:#0f172a;background:#f8fafc;cursor:pointer;outline:none;font-family:inherit}
+#cnt{margin-left:auto;font-size:12px;color:#94a3b8;white-space:nowrap}
+#cnt strong{color:#0f172a}
+.btn-ref{padding:7px 14px;background:#eef2ff;border:none;border-radius:8px;color:#4f46e5;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.btn-ref:hover{background:#e0e7ff}
+
+/* ── Table ── */
+#tw{background:#fff;border-radius:14px;border:1px solid #e8edf4;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.ts{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1000px}
+thead tr{background:#f8fafc;border-bottom:2px solid #e8edf4}
+thead th{padding:10px 14px;text-align:left;font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+tbody tr{border-bottom:1px solid #f1f5f9;cursor:pointer;transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#f8faff}
+tbody td{padding:11px 14px;font-size:13px}
+
+/* ── Chips ── */
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:700;white-space:nowrap;border:1px solid transparent}
+.cdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.cg{background:#dcfce7;color:#16a34a;border-color:#bbf7d0}
+.ca{background:#fef3c7;color:#b45309;border-color:#fde68a}
+.cr{background:#fee2e2;color:#dc2626;border-color:#fecaca}
+.ci{background:#eef2ff;color:#4f46e5;border-color:#c7d2fe}
+.cs{background:#f1f5f9;color:#334155}
+.csky{background:#e0f2fe;color:#0284c7;border-color:#bae6fd;font-size:10px;padding:1px 6px}
+.cop{background:#fee2e2;color:#dc2626;font-weight:700}
+.cok{background:#dcfce7;color:#16a34a;font-weight:700}
+.cday{background:#e0f2fe;color:#0284c7;font-weight:700}
+.cday2{background:#ede9fe;color:#7c3aed;font-weight:700}
+
+.trxw{display:flex;gap:3px;flex-wrap:wrap}
+.btn-v{background:#eef2ff;border:none;color:#4f46e5;border-radius:7px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-v:hover{background:#e0e7ff}
+.cname{font-weight:700;color:#0f172a}
+.cloc{font-size:11px;color:#94a3b8}
+
+/* ── Avatar ── */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;flex-shrink:0}
+
+/* ── Drawer ── */
+#ov{display:none;position:fixed;inset:0;z-index:500}
+#ov.open{display:flex}
+#ovbg{flex:1;background:rgba(15,23,42,.45);backdrop-filter:blur(4px);cursor:pointer}
+#dr{width:440px;background:#fff;height:100%;overflow-y:auto;box-shadow:-12px 0 48px rgba(0,0,0,.12);transform:translateX(40px);opacity:0;transition:transform .25s ease,opacity .25s ease}
+#ov.open #dr{transform:none;opacity:1}
+.drh{padding:20px 24px 16px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:10}
+.drc{float:right;background:#f1f5f9;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;color:#64748b;font-size:12px;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.drb{padding:18px 24px;display:flex;flex-direction:column;gap:18px}
+.slbl{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.dcell{background:#f8fafc;border-radius:9px;padding:9px 12px}
+.dclbl{font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.dcval{font-size:13px;font-weight:700;color:#0f172a;margin-top:2px}
+.trow{display:flex;align-items:center;gap:9px;padding:7px 11px;background:#f8fafc;border-radius:9px}
+.tnm{font-size:12px;font-weight:700;color:#0f172a}
+.tem{font-size:11px;color:#94a3b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rmkbox{background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:11px 13px;font-size:12px;color:#78350f;line-height:1.6;white-space:pre-line}
+.opbox{background:#fff5f5;border:1px solid #fecaca;border-radius:9px;padding:11px 13px}
+.oplbl{font-size:11px;font-weight:700;color:#dc2626;margin-bottom:5px}
+.optxt{font-size:12px;color:#7f1d1d;white-space:pre-line;line-height:1.6}
+.trxrow{display:flex;align-items:flex-start;gap:9px;padding:7px 11px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:9px}
+.trxlbl{font-size:11px;font-weight:700;color:#0284c7}
+.trxval{font-size:12px;color:#0c4a6e;margin-top:1px}
+
+/* ── Toast / Loading ── */
+#toast{position:fixed;bottom:20px;right:20px;z-index:999;background:#1e293b;color:#f8fafc;padding:9px 16px;border-radius:9px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.25);display:none}
+#lbar{height:3px;background:linear-gradient(90deg,#6366f1,#06b6d4,#6366f1);background-size:200%;animation:shim 1.2s infinite linear;position:fixed;top:0;left:0;right:0;z-index:999;display:none}
+@keyframes shim{to{background-position:-200% 0}}
+
+/* ── Empty ── */
+#empty{display:none;text-align:center;padding:50px;color:#94a3b8}
+
+/* ── Legend ── */
+#leg{display:flex;gap:18px;margin-top:12px;justify-content:flex-end;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:#64748b}
+
+@media(max-width:768px){#stats{grid-template-columns:repeat(2,1fr)}#wrap{padding:12px}#dr{width:100%}}
+</style>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">NV63ME3KTMDF-1507008246-237</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">750ed749-5cfd-4cd5-8976-5e331b599075</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://fctgau.sharepoint.com/sites/India/FCMOBTTechnology/_layouts/15/DocIdRedir.aspx?ID=NV63ME3KTMDF-1507008246-237, NV63ME3KTMDF-1507008246-237</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+
+<div id="lbar"></div>
+<div id="toast"></div>
+
+<div id="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-icon">✈</div>
+    <div><div class="hdr-t">FCM OBT Technology · India</div><div class="hdr-s">Onboarding 60 Days Tracker</div></div>
+  </div>
+  <div class="live"><div class="live-dot"></div><span id="ldate"></span></div>
+</div>
+
+<div id="wrap">
+  <div id="stats">
+    <div class="sc" style="border-top-color:#6366f1"><div class="sc-top"><div><div class="sc-lbl">Total Accounts</div><div class="sc-val" id="s0">—</div><div class="sc-sub">Active onboarding</div></div><div class="sc-ico">🏢</div></div></div>
+    <div class="sc" style="border-top-color:#22c55e"><div class="sc-top"><div><div class="sc-lbl">Green</div><div class="sc-val" style="color:#16a34a" id="s1">—</div><div class="sc-sub">On track</div></div><div class="sc-ico">🟢</div></div></div>
+    <div class="sc" style="border-top-color:#f59e0b"><div class="sc-top"><div><div class="sc-lbl">Amber</div><div class="sc-val" style="color:#b45309" id="s2">—</div><div class="sc-sub">Needs monitoring</div></div><div class="sc-ico">🟡</div></div></div>
+    <div class="sc" style="border-top-color:#ef4444"><div class="sc-top"><div><div class="sc-lbl">Red</div><div class="sc-val" style="color:#dc2626" id="s3">—</div><div class="sc-sub">Immediate attention</div></div><div class="sc-ico">🔴</div></div></div>
+    <div class="sc" style="border-top-color:#f97316"><div class="sc-top"><div><div class="sc-lbl">Open Points</div><div class="sc-val" style="color:#ea580c" id="s4">—</div><div class="sc-sub">Accounts with issues</div></div><div class="sc-ico">⚠️</div></div></div>
+  </div>
+
+  <div id="tb">
+    <div class="sw"><span>🔍</span><input id="sq" type="text" placeholder="Search customer, location, CIM…" oninput="filt()"/></div>
+    <select class="fil" id="fst" onchange="filt()"><option value="">All Status</option><option>Green</option><option>Amber</option><option>Red</option></select>
+    <select class="fil" id="floc" onchange="filt()"></select>
+    <select class="fil" id="ftyp" onchange="filt()"></select>
+    <button class="btn-ref" onclick="load()">↻ Refresh</button>
+    <div id="cnt"><strong>—</strong> accounts</div>
+  </div>
+
+  <div id="tw">
+    <div class="ts">
+      <table>
+        <thead><tr>
+          <th>Customer</th><th>Status</th><th>Account Type</th><th>Annual TTV</th>
+          <th>Go Live / Age</th><th>Mode</th><th>FOP</th><th>Open Points</th>
+          <th>Transactions</th><th>CIM</th><th></th>
+        </tr></thead>
+        <tbody id="tb2"></tbody>
+      </table>
+    </div>
+    <div id="empty"><div style="font-size:34px;margin-bottom:9px">🔍</div><div style="font-weight:700;font-size:14px;color:#475569">No matching accounts</div><div style="font-size:12px;margin-top:3px">Adjust search or filters</div></div>
+  </div>
+
+  <div id="leg">
+    <div class="li"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block"></span><strong style="color:#16a34a">Green</strong> — On track</div>
+    <div class="li"><span style="width:7px;height:7px;border-radius:50%;background:#f59e0b;display:inline-block"></span><strong style="color:#b45309">Amber</strong> — Needs monitoring</div>
+    <div class="li"><span style="width:7px;height:7px;border-radius:50%;background:#ef4444;display:inline-block"></span><strong style="color:#dc2626">Red</strong> — Immediate attention</div>
+  </div>
+</div>
+
+<!-- Drawer -->
+<div id="ov">
+  <div id="ovbg" onclick="closeDr()"></div>
+  <div id="dr">
+    <div class="drh"><button class="drc" onclick="closeDr()">✕</button><div id="dhc"></div></div>
+    <div class="drb" id="dbb"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  ① CONFIGURATION  ← only edit this block
+// ══════════════════════════════════════════
+var CFG = {
+  // Your SharePoint site URL (no trailing slash)
+  siteUrl: "https://fctgau.sharepoint.com/sites/India/FCMOBTTechnology",
+  // Exact list name as it appears in SharePoint
+  listName: "Onboarding 60 Days Tracker",
+  // Internal SharePoint field names → friendly labels
+  // Format:  "FriendlyName": "SP_InternalName"
+  fields: {
+    "Customer Name":       "Title",
+    "Location":            "Location",
+    "Annual TTV":          "Annual_x0020_TTV",
+    "Account Type":        "Account_x0020_Type",
+    "Current Status":      "Current_x0020_Status",
+    "Go Live Date":        "Go_x0020_Live_x0020_Date",
+    "FOP":                 "FOP",
+    "Number of Implants":  "Number_x0020_of_x0020_Implants",
+    "Mode of Operation":   "Mode_x0020_of_x0020_Operation",
+    "Onboarding REMARKS":  "Onboarding_x0020_REMARKS",
+    "Hotel Open Points":   "Hotel_x0020_Open_x0020_Points",
+    "Sales Remarks":       "Sales_x0020_Remarks",
+    "Ops Open Points":     "Ops_x0020_Open_x0020_Points",
+    "Tech Open Points":    "Tech_x0020_Open_x0020_Points",
+    "Finance Open Points": "Finance_x0020_Open_x0020_Poi_x002e_",
+    "CIM":                 "CIM",
+    "TIM":                 "TIM",
+    "BDM":                 "BDM",
+    "CC":                  "CC",
+    "AM":                  "AM",
+    "Active":              "Active",
+    "Air Trx":             "Air_x0020_Trx",
+    "Hotel Trx":           "Hotel_x0020_Trx",
+    "Bus Trx":             "Bus_x0020_Trx",
+    "Car Trx":             "Car_x0020_Trx",
+    "Rail Trx":            "Rail_x0020_Trx",
+    "Visa Trx":            "Visa_x0020_Trx",
+    "Insurance Trx":       "Insurance_x0020_Trx"
+  }
+};
+
+// ══════════════════════════════════════════
+//  CONSTANTS
+// ══════════════════════════════════════════
+var OPEN_PTS = [
+  {k:"Tech Open Points",    i:"💻", l:"Tech"},
+  {k:"Ops Open Points",     i:"⚙️", l:"Ops"},
+  {k:"Hotel Open Points",   i:"🏨", l:"Hotel"},
+  {k:"Finance Open Points", i:"💰", l:"Finance"},
+  {k:"Sales Remarks",       i:"📈", l:"Sales"}
+];
+var TRX = [
+  {k:"Air Trx",i:"✈️",l:"Air"},{k:"Hotel Trx",i:"🏨",l:"Hotel"},
+  {k:"Bus Trx",i:"🚌",l:"Bus"},{k:"Car Trx",i:"🚗",l:"Car"},
+  {k:"Rail Trx",i:"🚆",l:"Rail"},{k:"Visa Trx",i:"🛂",l:"Visa"},
+  {k:"Insurance Trx",i:"🛡️",l:"Ins"}
+];
+var AV_COLS=["#0284c7","#7c3aed","#db2777","#d97706","#059669","#0891b2","#4f46e5"];
+var ALL=[], FILT=[];
+
+// ══════════════════════════════════════════
+//  SAMPLE DATA — shown when outside SharePoint
+// ══════════════════════════════════════════
+var SAMPLE=[
+  {"Customer Name":"Rich","Location":"Mumbai","Annual TTV":"₹30,000,000","Account Type":"National","Current Status":"Amber","Go Live Date":"2026-04-01","FOP":"Card","Number of Implants":0,"Mode of Operation":"SBT","Active":"Yes","Onboarding REMARKS":"Commercial issue - In random transactions the commercials are not getting picked up. In Progress","Hotel Open Points":"Denied check-in- Resolved","Sales Remarks":"","Ops Open Points":"","Tech Open Points":"Commercial issue - In random transactions the commercials are not getting picked up. In Progress","Finance Open Points":"","CIM":"neha.kohli@in.fcm.travel","TIM":"rajeev.navani@in.fcm.travel","BDM":"naomi.dias@in.fcm.travel","CC":"sheetal.pednekar@in.fcm.travel","AM":"nidhi.dixit@in.fcm.travel","Air Trx":"Dom and Intl trx- 211 (Vol - INR 15,77,172)","Hotel Trx":"Dom and Intl trx- 528 (Vol- INR 20,43,066)","Bus Trx":"55 trx- INR 1,12,295","Car Trx":"Not in scope","Rail Trx":"89 trx- INR 91946","Visa Trx":"","Insurance Trx":""},
+  {"Customer Name":"AMNS","Location":"Baroda","Annual TTV":"₹0","Account Type":"National","Current Status":"Green","Go Live Date":"2026-04-07","FOP":"Card","Number of Implants":2,"Mode of Operation":"SBT","Active":"Yes","Onboarding REMARKS":"- HR Feed (Automation)- Pending on AMNS\n- Rail (Round Trip) option requested- JIRA 2412\n- SSO config in progress\n- Issue in Personal Bookings (Bug being worked on by Products)\n- Incorrect Commercial Issue (JIRA 3529)- In progress","Hotel Open Points":"","Sales Remarks":"","Ops Open Points":"","Tech Open Points":"- Issue in Personal Bookings (Bug being worked on)\n- Incorrect Commercial Issue (JIRA 3529)- In progress","Finance Open Points":"","CIM":"neha.kohli@in.fcm.travel","TIM":"rajeev.navani@in.fcm.travel","BDM":"naomi.dias@in.fcm.travel","CC":"rashmin.mistry@in.fcm.travel","AM":"ashwini.kamath@in.fcm.travel","Air Trx":"Air Trx- 151 Vol- INR 11,08,129","Hotel Trx":"","Bus Trx":"","Car Trx":"","Rail Trx":"","Visa Trx":"","Insurance Trx":""},
+  {"Customer Name":"Coforge","Location":"Noida","Annual TTV":"₹280,000,000","Account Type":"MNC","Current Status":"Red","Go Live Date":"2026-02-16","FOP":"Card","Number of Implants":0,"Mode of Operation":"SBT / Offline","Active":"Yes","Onboarding REMARKS":"- Account handed over to Support\n- Frequent flyer not reflecting on FBI ticket (JIRA 3503)\n- LCC ticket not reaching TC (JIRA 3503)\n- Air India Corporate Tagging as Retail (JIRA 3407)","Hotel Open Points":"","Sales Remarks":"","Ops Open Points":"","Tech Open Points":"- Frequent flyer not reflecting (JIRA 3503)\n- LCC ticket issue (JIRA 3503)\n- Air India tagging issue (JIRA 3407)","Finance Open Points":"","CIM":"neha.kohli@in.fcm.travel","TIM":"rajeev.navani@in.fcm.travel","BDM":"naomi.dias@in.fcm.travel","CC":"narendra.yadav@in.fcm.travel","AM":"sonam.gulati@in.fcm.travel","Air Trx":"Dom and Intl- 314 Vol- INR 55,00,000","Hotel Trx":"Referral: 10 Trx Vol INR 1,15,064","Bus Trx":"Not in scope","Car Trx":"Not in scope","Rail Trx":"Not in scope","Visa Trx":"","Insurance Trx":""},
+  {"Customer Name":"Jump Trading","Location":"Pune","Annual TTV":"₹60,000,000","Account Type":"MNC","Current Status":"Green","Go Live Date":"2026-04-14","FOP":"Deposit","Number of Implants":0,"Mode of Operation":"SBT / Offline","Active":"Yes","Onboarding REMARKS":"","Hotel Open Points":"","Sales Remarks":"","Ops Open Points":"","Tech Open Points":"","Finance Open Points":"","CIM":"neha.kohli@in.fcm.travel","TIM":"dhamapurkar.suraj@in.fcm.travel","BDM":"naomi.dias@in.fcm.travel","CC":"avinash.bhorkar@in.fcm.travel","AM":"abu.Jafar@in.fcm.travel","Air Trx":"68 trx- INR 34,36,686","Hotel Trx":"3 trx- INR 3,42,666","Bus Trx":"","Car Trx":"","Rail Trx":"","Visa Trx":"","Insurance Trx":""},
+  {"Customer Name":"Wirtgen India Pvt Ltd","Location":"Pune","Annual TTV":"₹60,000,000","Account Type":"National","Current Status":"Green","Go Live Date":"2026-04-01","FOP":"Card","Number of Implants":1,"Mode of Operation":"SBT / Offline","Active":"Yes","Onboarding REMARKS":"No Outstanding Issue\nRoadshow to wider audience pending - Nidhi to confirm","Hotel Open Points":"","Sales Remarks":"","Ops Open Points":"","Tech Open Points":"","Finance Open Points":"","CIM":"pallavi.khanna@in.fcm.travel","TIM":"dhamapurkar.suraj@in.fcm.travel","BDM":"ophelia.subramanian@in.fcm.travel","CC":"avinash.bhorkar@in.fcm.travel","AM":"nidhi.dixit@in.fcm.travel","Air Trx":"372 trx- Vol INR 85,00,000","Hotel Trx":"2 trx- INR 17,606","Bus Trx":"","Car Trx":"","Rail Trx":"","Visa Trx":"","Insurance Trx":"21 trx- INR 1,00,000"}
+];
+
+// ══════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════
+function nameFromEmail(e){
+  if(!e)return"—";
+  return e.split("@")[0].split(".").map(function(p){return p.charAt(0).toUpperCase()+p.slice(1)}).join(" ");
+}
+function daysSince(d){
+  if(!d)return 0;
+  return Math.max(0,Math.round((Date.now()-new Date(d))/86400000));
+}
+function av(name,size){
+  var initials=name.split(" ").map(function(n){return n[0]}).join("").slice(0,2).toUpperCase();
+  var col=AV_COLS[name.charCodeAt(0)%AV_COLS.length];
+  return '<div class="av" style="width:'+size+'px;height:'+size+'px;background:'+col+';font-size:'+(size*.34)+'px;box-shadow:0 0 0 2px #fff,0 0 0 3px '+col+'55">'+initials+'</div>';
+}
+function sChip(s){
+  var cls=s==="Green"?"cg":s==="Amber"?"ca":"cr";
+  var dc=s==="Green"?"#22c55e":s==="Amber"?"#f59e0b":"#ef4444";
+  return'<span class="chip '+cls+'"><span class="cdot" style="background:'+dc+'"></span>'+s+'</span>';
+}
+function dChip(d){
+  return'<span class="chip '+(d>60?"cday2":"cday")+'">Day '+d+'</span>';
+}
+function toast(m,ms){
+  var t=document.getElementById("toast");
+  t.textContent=m;t.style.display="block";
+  setTimeout(function(){t.style.display="none"},ms||3000);
+}
+function setLoad(on){document.getElementById("lbar").style.display=on?"block":"none";}
+
+// ══════════════════════════════════════════
+//  MAP SP item → normalised record
+// ══════════════════════════════════════════
+function mapItem(item){
+  var r={};
+  var fields=CFG.fields;
+  for(var friendly in fields){
+    var sp=fields[friendly];
+    var val=item[sp];
+    if(val&&typeof val==="object"){
+      // People fields: try Email then Title
+      val=val.EMail||val.Email||val.Title||"";
+    }
+    r[friendly]=val!=null?val:"";
+  }
+  return r;
+}
+
+// ══════════════════════════════════════════
+//  FETCH — tries SP REST, falls back to sample
+// ══════════════════════════════════════════
+function load(){
+  setLoad(true);
+  var spFields=Object.values(CFG.fields).join(",");
+  var url=CFG.siteUrl+"/_api/web/lists/getbytitle('"+encodeURIComponent(CFG.listName)+"')/items?$top=500&$select="+spFields;
+
+  // Try native SP fetch first (works when hosted on SP)
+  var xhr=new XMLHttpRequest();
+  xhr.open("GET",url,true);
+  xhr.setRequestHeader("Accept","application/json;odata=verbose");
+  xhr.withCredentials=true;
+  xhr.onload=function(){
+    if(xhr.status===200){
+      try{
+        var json=JSON.parse(xhr.responseText);
+        var items=(json.d&&json.d.results)||[];
+        if(items.length>0){
+          ALL=items.map(mapItem);
+          toast("✅ Loaded "+ALL.length+" records from SharePoint");
+        } else {
+          ALL=SAMPLE;
+          toast("ℹ️ List returned 0 items — check list name in CFG",5000);
+        }
+      }catch(e){ALL=SAMPLE;toast("⚠️ Parse error — showing sample data",4000);}
+    } else if(xhr.status===401||xhr.status===403){
+      ALL=SAMPLE;toast("🔒 Permission denied — check site access",5000);
+    } else {
+      ALL=SAMPLE;toast("📋 Showing sample data (not on SharePoint)",4000);
+    }
+    buildOpts();filt();setLoad(false);
+  };
+  xhr.onerror=function(){
+    ALL=SAMPLE;
+    toast("📋 Showing sample data — upload to SharePoint for live data",5000);
+    buildOpts();filt();setLoad(false);
+  };
+  xhr.send();
+}
+
+// ══════════════════════════════════════════
+//  FILTER OPTIONS
+// ══════════════════════════════════════════
+function buildOpts(){
+  var locs=[...new Set(ALL.map(function(r){return r["Location"]}).filter(Boolean))];
+  var typs=[...new Set(ALL.map(function(r){return r["Account Type"]}).filter(Boolean))];
+  var floc=document.getElementById("floc");
+  var ftyp=document.getElementById("ftyp");
+  floc.innerHTML='<option value="">All Locations</option>'+locs.map(function(l){return'<option>'+l+'</option>'}).join("");
+  ftyp.innerHTML='<option value="">All Account Types</option>'+typs.map(function(t){return'<option>'+t+'</option>'}).join("");
+}
+
+// ══════════════════════════════════════════
+//  FILTER & RENDER
+// ══════════════════════════════════════════
+function filt(){
+  var q=document.getElementById("sq").value.toLowerCase();
+  var fst=document.getElementById("fst").value;
+  var floc=document.getElementById("floc").value;
+  var ftyp=document.getElementById("ftyp").value;
+  FILT=ALL.filter(function(r){
+    return(!q||r["Customer Name"].toLowerCase().includes(q)||(r["Location"]||"").toLowerCase().includes(q)||(r["CIM"]||"").toLowerCase().includes(q))
+      &&(!fst||r["Current Status"]===fst)
+      &&(!floc||r["Location"]===floc)
+      &&(!ftyp||r["Account Type"]===ftyp);
+  });
+  renderStats();renderTable();
+}
+
+// ══════════════════════════════════════════
+//  RENDER STATS
+// ══════════════════════════════════════════
+function renderStats(){
+  document.getElementById("s0").textContent=ALL.length;
+  document.getElementById("s1").textContent=ALL.filter(function(r){return r["Current Status"]==="Green"}).length;
+  document.getElementById("s2").textContent=ALL.filter(function(r){return r["Current Status"]==="Amber"}).length;
+  document.getElementById("s3").textContent=ALL.filter(function(r){return r["Current Status"]==="Red"}).length;
+  document.getElementById("s4").textContent=ALL.filter(function(r){return OPEN_PTS.some(function(f){return r[f.k]&&r[f.k].trim()})}).length;
+  document.getElementById("cnt").innerHTML='<strong>'+FILT.length+'</strong> of '+ALL.length+' accounts';
+}
+
+// ══════════════════════════════════════════
+//  RENDER TABLE
+// ══════════════════════════════════════════
+function renderTable(){
+  var tb=document.getElementById("tb2");
+  var empty=document.getElementById("empty");
+  if(FILT.length===0){tb.innerHTML="";empty.style.display="block";return;}
+  empty.style.display="none";
+  tb.innerHTML=FILT.map(function(r,i){
+    var days=daysSince(r["Go Live Date"]);
+    var oc=OPEN_PTS.filter(function(f){return r[f.k]&&r[f.k].trim()}).length;
+    var ta=TRX.filter(function(f){return r[f.k]&&r[f.k].trim()&&r[f.k]!=="Not in scope"});
+    var liveFmt=r["Go Live Date"]?new Date(r["Go Live Date"]).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}):"—";
+    var trxH=ta.map(function(f){return'<span class="chip csky">'+f.i+' '+f.l+'</span>'}).join("")||'<span style="font-size:12px;color:#94a3b8">None</span>';
+    return'<tr onclick="openDr('+i+')">'
+      +'<td><div style="display:flex;align-items:center;gap:9px">'+av(r["Customer Name"],30)+'<div><div class="cname">'+r["Customer Name"]+'</div><div class="cloc">'+r["Location"]+'</div></div></div></td>'
+      +'<td>'+sChip(r["Current Status"])+'</td>'
+      +'<td><span class="chip cs">'+r["Account Type"]+'</span></td>'
+      +'<td style="font-weight:600">'+r["Annual TTV"]+'</td>'
+      +'<td><div style="font-size:12px;font-weight:600">'+liveFmt+'</div>'+dChip(days)+'</td>'
+      +'<td style="color:#334155">'+r["Mode of Operation"]+'</td>'
+      +'<td style="color:#334155">'+r["FOP"]+'</td>'
+      +'<td>'+(oc>0?'<span class="chip cop">⚠ '+oc+' open</span>':'<span class="chip cok">✓ Clear</span>')+'</td>'
+      +'<td><div class="trxw">'+trxH+'</div></td>'
+      +'<td style="font-size:12px;color:#334155">'+nameFromEmail(r["CIM"])+'</td>'
+      +'<td><button class="btn-v" onclick="event.stopPropagation();openDr('+i+')">View →</button></td>'
+      +'</tr>';
+  }).join("");
+}
+
+// ══════════════════════════════════════════
+//  DRAWER
+// ══════════════════════════════════════════
+function openDr(idx){
+  var r=FILT[idx];
+  var days=daysSince(r["Go Live Date"]);
+  var liveFmt=r["Go Live Date"]?new Date(r["Go Live Date"]).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"}):"—";
+  var ops=OPEN_PTS.filter(function(f){return r[f.k]&&r[f.k].trim()});
+  var trxd=TRX.filter(function(f){return r[f.k]&&r[f.k].trim()&&r[f.k]!=="Not in scope"});
+  var team=[{role:"CIM",e:r["CIM"]},{role:"TIM",e:r["TIM"]},{role:"BDM",e:r["BDM"]},{role:"CC",e:r["CC"]},{role:"AM",e:r["AM"]}].filter(function(t){return t.e});
+
+  document.getElementById("dhc").innerHTML=
+    '<div style="display:flex;align-items:center;gap:12px">'
+    +av(r["Customer Name"],44)
+    +'<div><div style="font-weight:800;font-size:17px">'+r["Customer Name"]+'</div>'
+    +'<div style="display:flex;gap:7px;margin-top:4px;flex-wrap:wrap;align-items:center">'+sChip(r["Current Status"])+dChip(days)+'<span style="font-size:12px;color:#64748b">'+r["Location"]+'</span></div></div></div>';
+
+  var b='<section><div class="slbl">Account Details</div><div class="dgrid">'
+    +'<div class="dcell"><div class="dclbl">Account Type</div><div class="dcval">'+r["Account Type"]+'</div></div>'
+    +'<div class="dcell"><div class="dclbl">Annual TTV</div><div class="dcval">'+r["Annual TTV"]+'</div></div>'
+    +'<div class="dcell"><div class="dclbl">Go Live Date</div><div class="dcval">'+liveFmt+'</div></div>'
+    +'<div class="dcell"><div class="dclbl">FOP</div><div class="dcval">'+r["FOP"]+'</div></div>'
+    +'<div class="dcell"><div class="dclbl">Mode of Operation</div><div class="dcval">'+r["Mode of Operation"]+'</div></div>'
+    +'<div class="dcell"><div class="dclbl">No. of Implants</div><div class="dcval">'+(r["Number of Implants"]||0)+'</div></div>'
+    +'</div></section>';
+
+  if(team.length){
+    b+='<section><div class="slbl">Team</div><div style="display:flex;flex-direction:column;gap:7px">';
+    b+=team.map(function(t){
+      return'<div class="trow">'+av(nameFromEmail(t.e),26)
+        +'<div style="flex:1;min-width:0"><div class="tnm">'+nameFromEmail(t.e)+'</div><div class="tem">'+t.e+'</div></div>'
+        +'<span class="chip ci" style="font-size:10px;padding:2px 7px">'+t.role+'</span></div>';
+    }).join("");
+    b+='</div></section>';
+  }
+
+  if(r["Onboarding REMARKS"]&&r["Onboarding REMARKS"].trim())
+    b+='<section><div class="slbl">Onboarding Remarks</div><div class="rmkbox">'+r["Onboarding REMARKS"].trim()+'</div></section>';
+
+  if(ops.length){
+    b+='<section><div class="slbl">Open Points</div><div style="display:flex;flex-direction:column;gap:9px">';
+    b+=ops.map(function(f){
+      return'<div class="opbox"><div class="oplbl">'+f.i+' '+f.l+'</div><div class="optxt">'+r[f.k].trim()+'</div></div>';
+    }).join("");
+    b+='</div></section>';
+  }
+
+  if(trxd.length){
+    b+='<section><div class="slbl">Transaction Summary</div><div style="display:flex;flex-direction:column;gap:7px">';
+    b+=trxd.map(function(f){
+      return'<div class="trxrow"><span style="font-size:15px;line-height:1.3">'+f.i+'</span><div><div class="trxlbl">'+f.l+'</div><div class="trxval">'+r[f.k]+'</div></div></div>';
+    }).join("");
+    b+='</div></section>';
+  }
+
+  document.getElementById("dbb").innerHTML=b;
+  document.getElementById("ov").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeDr(){
+  document.getElementById("ov").classList.remove("open");
+  document.body.style.overflow="";
+}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeDr();});
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+document.getElementById("ldate").textContent=new Date().toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+load();
+</script>
+</body>
+</html>
