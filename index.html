@@ -358,42 +358,38 @@ function load(){
   });
 }
 
-// mapItemFlat handles JSON from Power Automate "Get items"
-// PA wraps people fields as objects with DisplayName, Email etc
-function getPeopleVal(v){
-  if(!v) return "";
-  if(typeof v === "string") return v;
-  // PA people field object
-  if(v.DisplayName) return v.DisplayName;
+// mapItemFlat — handles Power Automate "Get items" JSON format exactly
+// Choice fields: {Value: "Mumbai"}, People: {DisplayName: "Neha Kohli (IN)"}, Dates: "2026-04-01"
+function getVal(v){
+  if(v===null||v===undefined) return "";
+  if(typeof v==="string") return v;
+  if(typeof v==="number") return v;
+  if(v.Value!==undefined) return v.Value;       // Choice fields
+  if(v.DisplayName) return v.DisplayName;        // People fields
   if(v.Title) return v.Title;
   if(v.Email) return v.Email;
-  if(v.Value) return v.Value;
   return "";
 }
 function mapItemFlat(item){
-  var r = {};
-  r["Customer Name"]       = item["Title"] || "";
-  r["Location"]            = item["field_1Value"] || item["field_1"] || "";
-  r["Account Type"]        = item["field_3Value"] || item["field_3"] || "";
-  r["Current Status"]      = item["field_4Value"] || item["field_4"] || "";
-  r["FOP"]                 = item["field_6Value"] || item["field_6"] || "";
-  r["Mode of Operation"]   = item["field_8Value"] || item["field_8"] || "";
-  r["Onboarding REMARKS"]  = item["field_9"] || "";
+  var r={};
+  r["Customer Name"]       = item["Title"]    || "";
+  r["Location"]            = getVal(item["field_1"]) || "";
+  r["Account Type"]        = getVal(item["field_3"]) || "";
+  r["Current Status"]      = getVal(item["field_4"]) || "";
+  r["FOP"]                 = getVal(item["field_6"]) || "";
+  r["Mode of Operation"]   = getVal(item["field_8"]) || "";
+  r["Number of Implants"]  = item["field_7"]  || 0;
+  r["Onboarding REMARKS"]  = item["field_9"]  || "";
   r["Hotel Open Points"]   = item["field_10"] || "";
   r["Sales Remarks"]       = item["field_11"] || "";
   r["Ops Open Points"]     = item["field_12"] || "";
   r["Tech Open Points"]    = item["field_13"] || "";
   r["Finance Open Points"] = item["field_14"] || "";
-  r["Number of Implants"]  = item["field_7"] || 0;
-
-  // People fields — PA returns as objects
-  r["CIM"] = getPeopleVal(item["CIM"]);
-  r["TIM"] = getPeopleVal(item["TIM"]);
-  r["BDM"] = getPeopleVal(item["BDM"]);
-  r["CC"]  = getPeopleVal(item["CC"]);
-  r["AM"]  = getPeopleVal(item["AM"]);
-
-  // Transaction fields
+  r["CIM"] = getVal(item["CIM"]) || "";
+  r["TIM"] = getVal(item["TIM"]) || "";
+  r["BDM"] = getVal(item["BDM"]) || "";
+  r["CC"]  = getVal(item["CC"])  || "";
+  r["AM"]  = getVal(item["AM"])  || "";
   r["Air Trx"]       = item["AirTrx"]       || "";
   r["Hotel Trx"]     = item["HotelTrx"]     || "";
   r["Bus Trx"]       = item["BusTrx"]       || "";
@@ -402,29 +398,25 @@ function mapItemFlat(item){
   r["Visa Trx"]      = item["VisaTrx"]      || "";
   r["Insurance Trx"] = item["InsuranceTrx"] || "";
 
-  // Format TTV — PA returns raw number
+  // TTV — raw number like 30000000.0
   var ttv = item["field_2"];
-  if(ttv !== null && ttv !== undefined && ttv !== ""){
-    r["Annual TTV"] = "₹" + Number(ttv).toLocaleString("en-IN");
-  } else {
-    r["Annual TTV"] = "₹0";
-  }
+  r["Annual TTV"] = (ttv!==null && ttv!==undefined && ttv!=="")
+    ? "₹" + Number(ttv).toLocaleString("en-IN")
+    : "₹0";
 
-  // Format date + compute days — PA returns ISO string
+  // Date — plain string "2026-04-01" from PA
   var goLive = item["field_5"] || "";
   if(goLive){
     try{
-      var d = new Date(goLive);
-      var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-      r["_days"] = Math.max(0, Math.round((new Date() - d) / 86400000));
-      r["Go Live Date"] = d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
-    }catch(e){
-      r["Go Live Date"] = goLive;
-      r["_days"] = 0;
-    }
+      // PA date is "2026-04-01" — parse as local date
+      var parts = goLive.substring(0,10).split("-");
+      var d = new Date(Number(parts[0]), Number(parts[1])-1, Number(parts[2]));
+      var months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      r["_days"] = Math.max(0, Math.round((new Date()-d)/86400000));
+      r["Go Live Date"] = d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear();
+    }catch(e){ r["Go Live Date"]=goLive; r["_days"]=0; }
   } else {
-    r["Go Live Date"] = "";
-    r["_days"] = 0;
+    r["Go Live Date"]=""; r["_days"]=0;
   }
   return r;
 }
